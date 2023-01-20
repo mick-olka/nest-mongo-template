@@ -20,17 +20,6 @@ import { Product } from './schemas/product.schema'
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'Successfully created product.',
-  })
-  //   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
-  async create(@Body() data: CreateProductDto) {
-    return this.productsService.create(data)
-  }
-
   @Get()
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
@@ -50,6 +39,17 @@ export class ProductsController {
   //   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
   getTodoById(@Param('id') id: string): Promise<Product> {
     return this.productsService.findOne(id)
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Successfully created product.',
+  })
+  //   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
+  async create(@Body() data: CreateProductDto) {
+    return this.productsService.create(data)
   }
 
   @Patch()

@@ -50,9 +50,9 @@ export class UsersService {
   }
 
   async delete(id: string) {
-    const deletedProduct = await this.UserModel.findByIdAndRemove({
+    const deletedUser = await this.UserModel.findByIdAndRemove({
       _id: id,
     }).exec()
-    return deletedProduct
+    return deletedUser
   }
 }

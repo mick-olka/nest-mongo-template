@@ -8,28 +8,21 @@ import {
   Param,
   Delete,
   Patch,
+  UseGuards,
 } from '@nestjs/common'
-import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UsersService } from './users.service'
 import { User } from './schemas/user.schema'
+import { AuthGuard } from '@nestjs/passport'
 
-@ApiTags('Products')
-@Controller('products')
+@ApiBearerAuth()
+@UseGuards(AuthGuard('jwt'))
+@ApiTags('Users')
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'Successfully created user.',
-  })
-  //   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
-  async create(@Body() data: CreateUserDto) {
-    return this.usersService.create(data)
-  }
 
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -50,6 +43,17 @@ export class UsersController {
   //   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
   getTodoById(@Param('id') id: string): Promise<User> {
     return this.usersService.findById(id)
+  }
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Successfully created user.',
+  })
+  //   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
+  async create(@Body() data: CreateUserDto) {
+    return this.usersService.create(data)
   }
 
   @Patch()
