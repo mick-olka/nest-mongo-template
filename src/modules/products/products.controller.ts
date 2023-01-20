@@ -27,8 +27,8 @@ export class ProductsController {
     description: 'Successfully created product.',
   })
   //   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
-  async create(@Body() createCatDto: CreateProductDto) {
-    return this.productsService.create(createCatDto)
+  async create(@Body() data: CreateProductDto) {
+    return this.productsService.create(data)
   }
 
   @Get()

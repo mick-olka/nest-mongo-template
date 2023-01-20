@@ -11,8 +11,8 @@ export class ProductsService {
     private readonly ProductModel: Model<ProductDocument>,
   ) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
-    const createdProduct = await this.ProductModel.create(createProductDto)
+  async create(data: CreateProductDto): Promise<Product> {
+    const createdProduct = await this.ProductModel.create(data)
     return createdProduct
   }
 
