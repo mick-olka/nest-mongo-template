@@ -5,6 +5,8 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User, UserDocument } from './schemas/user.schema'
 
+type UserI = User & { _id: mongoose.Types.ObjectId }
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -12,9 +14,7 @@ export class UsersService {
     private readonly UserModel: Model<UserDocument>,
   ) {}
 
-  async create(
-    data: CreateUserDto,
-  ): Promise<User & { _id: mongoose.Types.ObjectId }> {
+  async create(data: CreateUserDto): Promise<UserI> {
     const createdUser = await this.UserModel.create(data)
     return createdUser
   }
@@ -23,17 +23,15 @@ export class UsersService {
     return this.UserModel.find().exec()
   }
 
-  async findById(id: string): Promise<User & { _id: mongoose.Types.ObjectId }> {
+  async findById(id: string): Promise<UserI> {
     return this.UserModel.findOne({ _id: id }).exec()
   }
 
-  async findOne(
-    params: Partial<User>,
-  ): Promise<User & { _id: mongoose.Types.ObjectId }> {
+  async findOne(params: Partial<User>): Promise<UserI> {
     return this.UserModel.findOne(params).exec()
   }
 
-  async updateOneById(id: string, data: UpdateUserDto): Promise<User> {
+  async updateOneById(id: string, data: UpdateUserDto): Promise<UserI> {
     return this.UserModel.findOneAndUpdate({ _id: id }, data)
   }
 
@@ -45,11 +43,11 @@ export class UsersService {
         }
     >,
     data: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<UserI> {
     return this.UserModel.findOneAndUpdate(searchParams, data)
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<UserI> {
     const deletedUser = await this.UserModel.findByIdAndRemove({
       _id: id,
     }).exec()

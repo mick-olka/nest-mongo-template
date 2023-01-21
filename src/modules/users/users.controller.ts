@@ -41,7 +41,7 @@ export class UsersController {
     description: 'Successfully fetched users.',
   })
   //   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden.' })
-  getTodoById(@Param('id') id: string): Promise<User> {
+  findById(@Param('id') id: string): Promise<User> {
     return this.usersService.findById(id)
   }
 
